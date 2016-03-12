@@ -1,0 +1,9 @@
+user: 'admin'
+pass: 'password'
+tenant: 'tenant' 
+vrf:
+  name: 'VRF01'
+  desc: 'VRF01 L3 context'
+anp: 'ANP'
+
+include: 'bds.yml'

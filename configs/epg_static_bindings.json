@@ -1,0 +1,11 @@
+{
+  "fvRsPathAtt": {
+    "attributes": {
+      "encap": "vlan-451",
+      "instrImedcy": "immediate",
+      "tDn": "topology/pod-1/protpaths-101-102/pathep-[1-ports-45_PolGrp]",
+      "status": "created"
+    },
+    "children": []
+  }
+}

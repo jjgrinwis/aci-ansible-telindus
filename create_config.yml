@@ -1,0 +1,43 @@
+---
+- name: playbook to create bridge domains
+  hosts: apic
+  connection: local
+  gather_facts: no
+  vars:
+    #state: absent
+    state: present
+
+  tasks:
+    - name: create tenant
+      aci_tenant: name={{ tenant }} descr='robs tenant' state={{ state }} host={{ inventory_hostname }} username={{ user }} password={{ pass }}
+
+    - name: create context
+      aci_context: name={{ vrf.name }} descr={{ vrf.desc }} tenant={{ tenant }} host={{ inventory_hostname }} username={{ user }} password={{ pass }}
+
+    - name: create bridge domains
+      aci_bridge_domain: name={{ item.key }} descr={{ item.value.desc }} context={{ vrf.name }} tenant={{ tenant }} state=present host={{ inventory_hostname }} username={{ user }} password={{ pass }}
+      with_dict: "{{ bds }}"
+
+    - name: ensure application network profile exists
+      aci_anp: name={{ anp }} tenant={{ tenant }} state=present host={{ inventory_hostname }} username={{ user }} password={{ pass }}
+
+    - name: create EPG's with 1:1 relation with BD.
+      aci_epg:
+        name: "{{ item.value.desc }}_{{ item.value.vlan_id }}"
+        descr: "{{ item.value.desc }} with vlan_id {{item.value.vlan_id }}"
+        bridge_domain: "{{ item.key }}"
+        anp: "{{ anp }}"
+        tenant: "{{ tenant }}"
+        state: present
+        host: "{{ inventory_hostname }}"
+        username: "{{ user }}"
+        password: "{{ pass }}"
+      with_dict: "{{ bds }}"
+
+    - name: set correct bridge domain properties like flooding and unicast
+      include: set_bd_properties.yml
+      with_dict: "{{ bds }}"
+
+    - name: set epg l2 static bindings
+      include: set_epgstaticpath.yml
+      with_dict: "{{ bds }}"

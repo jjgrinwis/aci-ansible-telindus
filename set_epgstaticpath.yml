@@ -1,0 +1,13 @@
+# initial version with only one static EPG binding
+
+- set_fact: bd="{{ item }}"
+
+# modification because of sync issue with vagrant
+- name: create json config files for static path
+  template: src=templates/epg_static_bindings.j2 dest=/tmp/epg_static_bindings.json
+
+- name: copy template to configs dir
+  command: mv /tmp/epg_static_bindings.json configs/epg_static_bindings.json
+
+- name: use ACI API to create static EPG port bindings
+  aci_rest: action=post uri=/api/node/mo/uni/tn-{{ tenant }}/ap-{{ anp }}/epg-{{ bd.value.desc }}_{{ bd.value.vlan_id }}.json config_file=configs/epg_static_bindings.json host={{ inventory_hostname }} username={{ user }} password={{ pass }}

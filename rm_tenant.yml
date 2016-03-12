@@ -1,0 +1,9 @@
+---
+- name: playbook to remove tenant
+  hosts: apic
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: remove epg
+      aci_tenant: name={{ tenant }} state=absent host={{ inventory_hostname }} username={{ user }} password={{ pass }}

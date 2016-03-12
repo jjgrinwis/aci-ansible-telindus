@@ -1,0 +1,12 @@
+- set_fact: bd="{{ item }}"
+
+# workaround for vagrant with sync folder
+- name: create json config files
+  template: src=templates/bd_settings.j2 dest=/tmp/bd_settings.json
+
+- name: move to template directory 
+  command: mv /tmp/bd_settings.json configs/bd_settings.json
+
+- name: use ACI API to set flood type using json format
+  aci_rest: action=post uri=/api/node/mo/uni/tn-{{ tenant }}/BD-{{ bd.key }}.json config_file=configs/bd_settings.json host={{ inventory_hostname }} username={{ user }} password={{ pass }}
+  

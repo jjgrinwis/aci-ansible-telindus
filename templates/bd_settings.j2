@@ -1,0 +1,21 @@
+{
+  "fvBD": {
+    "attributes": {
+      "dn": "uni/tn-{{ tenant }}/BD-{{ bd.key }}",
+      "unkMacUcastAct": "flood",
+      "arpFlood": "true",
+      "unicastRoute": "false"
+    },
+    "children": [
+      {
+        "fvRsABDPolMonPol": {
+          "attributes": {
+            "tnMonEPGPolName": "monitorrob",
+            "status": "created,modified"
+          },
+          "children": []
+        }
+      }
+    ]
+  }
+}

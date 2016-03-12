@@ -1,0 +1,21 @@
+{
+  "fvBD": {
+    "attributes": {
+      "dn": "uni/tn-Ansible01/BD-bd_vlan451",
+      "unkMacUcastAct": "flood",
+      "arpFlood": "true",
+      "unicastRoute": "false"
+    },
+    "children": [
+      {
+        "fvRsABDPolMonPol": {
+          "attributes": {
+            "tnMonEPGPolName": "monitorrob",
+            "status": "created,modified"
+          },
+          "children": []
+        }
+      }
+    ]
+  }
+}
