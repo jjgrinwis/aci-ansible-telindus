@@ -41,3 +41,7 @@
     - name: set epg l2 static bindings
       include: set_epgstaticpath.yml
       with_dict: "{{ bds }}"
+
+    - name: set epg domain bindings
+      include: set_epg_domain.yml
+      with_dict: "{{ bds }}"

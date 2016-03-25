@@ -1,0 +1,14 @@
+# there is no option to set phyical domain from Anisble module
+# So use REST call to set physical domain per epg
+
+- set_fact: bd="{{ item }}"
+
+# modification because of sync issue with vagrant
+- name: create json config files for static path
+  template: src=templates/epg_domain.j2 dest=/tmp/epg_domain.json
+
+- name: copy template to configs dir
+  command: mv /tmp/epg_domain.json configs/epg_domain.json
+
+- name: use ACI API to map epg to domain
+  aci_rest: action=post uri=/api/node/mo/uni/tn-{{ tenant }}/ap-{{ anp }}/epg-{{ bd.value.desc }}_{{ bd.value.vlan_id }}.json config_file=configs/epg_domain.json host={{ inventory_hostname }} username={{ user }} password={{ pass }}

@@ -1,9 +1,10 @@
 user: 'admin'
 pass: 'password'
-tenant: 'tenant' 
+tenant: 'consultants' 
 vrf:
   name: 'VRF01'
   desc: 'VRF01 L3 context'
 anp: 'ANP'
+domain: 'phys-Domain_LAB'
 
 include: 'bds.yml'
